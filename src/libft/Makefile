@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/25 13:10:45 by diserran          #+#    #+#              #
-#    Updated: 2022/10/30 23:08:42 by diserran         ###   ########.fr        #
+#    Updated: 2022/11/02 12:06:49 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,9 +68,11 @@ CC = gcc
 
 CC_FLAGS = -Wall -Wextra -Werror
 
+.SILENT:
+
 $(OBJS_DIR)%.o : %.c libft.h
 	@mkdir -p $(OBJS_DIR)
-	@echo "Compiling: $<"
+#	@echo "Compiling: $<"
 	@clang $(CC_FLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS_PREFIXED)
@@ -87,6 +89,6 @@ fclean: clean
 
 re: fclean all
 
-bonus: $(OBJECTS_BONUS_PREFIXED)
-	@ar r $(NAME) $(OBJECTS_BONUS_PREFIXED)
+bonus: $(OBJECTS_PREFIXED) $(OBJECTS_BONUS_PREFIXED)
+	@ar r $(NAME) $(OBJECTS_PREFIXED) $(OBJECTS_BONUS_PREFIXED)
 	@echo "Libft Bonus Done !"

@@ -6,43 +6,21 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/10/30 22:23:24 by diserran         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:49:37 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-/* char	**read_map(int fd, char **map)
-{
-	int		i = 0;
-	int		line_len = 0;
-	char	*line = "";
-	
-	while (line != NULL)
-	{
-		line = get_next_line(fd);
-		if (line)
-		{
-			//printf("%s", line);
-			line_len = ft_strlen(line);
-			map[i] = (char *) malloc(sizeof(char) * (line_len + 1));
-			map[i] = line;
-			map[i][line_len] = '\0';
-			//free(line);
-			//printf("%s", map[i]);
-		}
-		//free(line);
-		i++;
-	}
-	return (map);
-} */
-
 char	**read_map(int fd, char **map)
 {
-	int		i = 0;
-	int		line_len = 0;
-	char	*line = "";
-	
+	int		i;
+	int		line_len;
+	char	*line;
+
+	i = 0;
+	line_len = 0;
+	line = "";
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
@@ -58,6 +36,17 @@ char	**read_map(int fd, char **map)
 	return (map);
 }
 
+/* int	is_rectangular(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		i++;
+	}
+} */
+
 int	main(void)
 {
 	int		i = 0;
@@ -65,14 +54,16 @@ int	main(void)
 	char	**map;
 
 	fd = open("map.ber", O_RDONLY);
-	map = (char **) malloc(sizeof(char*) * 5);
+	map = (char **) malloc(sizeof(char *) * 5);
 	map = read_map(fd, map);
 	fd = close(fd);
 	while (i < 5)
-	{	
+	{
 		printf("%s", map[i]);
 		i++;
-	} 
+	}
+	for (int x = 0; map[x]; x++)
+		free(map[x]);
 	free(map);
 	return (0);
 }
