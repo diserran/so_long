@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/11/02 15:49:37 by diserran         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:43:12 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,22 @@ char	**read_map(int fd, char **map)
 	return (map);
 }
 
-/* int	is_rectangular(char **map)
+int	is_rectangular(char **map)
 {
-	int	i;
+	int		i;
+	size_t	initial_len;
 
 	i = 0;
+	initial_len = ft_strlen(map[0]);
 	while (map[i])
 	{
+		printf("Initial len: %zu\t Line %d len: %zu\n", initial_len, i, ft_strlen(map[i]));
+		if (initial_len != ft_strlen(map[i]))
+			return (0);
 		i++;
 	}
-} */
+	return (1);
+}
 
 int	main(void)
 {
@@ -62,6 +68,10 @@ int	main(void)
 		printf("%s", map[i]);
 		i++;
 	}
+	if (is_rectangular(map))
+		printf("\nThe map is rectangular");
+	else
+		printf("\nThe map is NOT rectanguar!!!");
 	for (int x = 0; map[x]; x++)
 		free(map[x]);
 	free(map);
