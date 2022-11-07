@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2022/11/07 12:57:24 by diserran         ###   ########.fr       */
+/*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
+/*   Updated: 2022/11/07 12:19:08 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#include "../include/so_long.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include "../src/libft/libft.h"
-# include "../src/get_next_line/get_next_line.h"
-
-void	map_checker(char *map);
-
-#endif
+int	main(int argc, char **argv)
+{
+	if (argc == 2)
+	{
+		map_checker(argv[1]);
+	}
+	else
+		write(2, "Not enough arguments!\n", 23);
+	return (0);
+}

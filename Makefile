@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2022/11/02 15:22:24 by diserran         ###   ########.fr        #
+#    Updated: 2022/11/07 12:13:40 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ LIBFT := src/libft/
 GNL := src/get_next_line/
 
 SRCS        :=      $(GNL)get_next_line.c \
+					src/so_long.c \
 					src/map_check.c \
 
 OBJS        := $(SRCS:.c=.o)

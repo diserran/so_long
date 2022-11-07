@@ -6,16 +6,16 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/11/03 15:43:12 by diserran         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:22:00 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-char	**read_map(int fd, char **map)
+static char	**read_map(int fd, char **map)
 {
 	int		i;
-	int		line_len;
+	size_t	line_len;
 	char	*line;
 
 	i = 0;
@@ -27,6 +27,8 @@ char	**read_map(int fd, char **map)
 		if (line)
 		{
 			line_len = ft_strlen(line);
+			if (line[line_len - 1] == '\n')
+				line_len--;
 			map[i] = (char *) malloc(sizeof(char) * line_len);
 			map[i] = ft_memcpy(map[i], line, line_len);
 			free(line);
@@ -36,7 +38,7 @@ char	**read_map(int fd, char **map)
 	return (map);
 }
 
-int	is_rectangular(char **map)
+static int	is_rectangular(char **map)
 {
 	int		i;
 	size_t	initial_len;
@@ -45,7 +47,6 @@ int	is_rectangular(char **map)
 	initial_len = ft_strlen(map[0]);
 	while (map[i])
 	{
-		printf("Initial len: %zu\t Line %d len: %zu\n", initial_len, i, ft_strlen(map[i]));
 		if (initial_len != ft_strlen(map[i]))
 			return (0);
 		i++;
@@ -53,27 +54,36 @@ int	is_rectangular(char **map)
 	return (1);
 }
 
-int	main(void)
+void	map_checker(char *mapfile)
 {
-	int		i = 0;
 	int		fd;
+	int		i;
 	char	**map;
 
-	fd = open("map.ber", O_RDONLY);
-	map = (char **) malloc(sizeof(char *) * 5);
-	map = read_map(fd, map);
-	fd = close(fd);
-	while (i < 5)
+	i = 0;
+	if (ft_strnstr(mapfile, ".ber", ft_strlen(mapfile)))
 	{
-		printf("%s", map[i]);
-		i++;
+		fd = open(mapfile, O_RDONLY);
+		map = (char **) malloc(sizeof(char *) * 5);
+		map = read_map(fd, map);
+		fd = close(fd);
+		while (i < 5)
+		{
+			printf("%s\n", map[i]);
+			i++;
+		}
+		if (is_rectangular(map))
+			printf("\nThe map is rectangular");
+		else
+			printf("\nThe map is NOT rectanguar!!!");
+		for (int x = 0; map[x]; x++)
+			free(map[x]);
+		free(map);
 	}
-	if (is_rectangular(map))
-		printf("\nThe map is rectangular");
 	else
-		printf("\nThe map is NOT rectanguar!!!");
-	for (int x = 0; map[x]; x++)
-		free(map[x]);
-	free(map);
-	return (0);
+	{
+		write(2, "Error\n", 7);
+		write(2, "Map file extension is not .ber\n", 32);
+		exit(1);
+	}
 }
