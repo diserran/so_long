@@ -6,11 +6,16 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/11/07 13:22:00 by diserran         ###   ########.fr       */
+/*   Updated: 2022/11/12 17:06:01 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
+struct mapData {
+	char	**content;
+	int		**size;
+};
 
 static char	**read_map(int fd, char **map)
 {
@@ -54,31 +59,50 @@ static int	is_rectangular(char **map)
 	return (1);
 }
 
-void	map_checker(char *mapfile)
+int	get_dimensions(char *map_file, int	**size)
 {
 	int		fd;
-	int		i;
-	char	**map;
+	int		x;
+	int		y;
+	char	*temp;
 
-	i = 0;
-	if (ft_strnstr(mapfile, ".ber", ft_strlen(mapfile)))
+	fd = open(map_file, O_RDONLY);
+	y = 1;
+	temp = get_next_line(fd);
+	x = ft_strlen(temp) - 1;
+	while (temp != NULL)
 	{
-		fd = open(mapfile, O_RDONLY);
-		map = (char **) malloc(sizeof(char *) * 5);
-		map = read_map(fd, map);
-		fd = close(fd);
-		while (i < 5)
-		{
-			printf("%s\n", map[i]);
-			i++;
-		}
-		if (is_rectangular(map))
-			printf("\nThe map is rectangular");
+		y++;
+	}
+	close(fd);
+}
+
+void	free_map(char **map)
+{
+	for (int x = 0; map[x]; x++)
+		free(map[x]);
+	free(map);
+}
+
+void	map_checker(char *map_file)
+{
+	struct	mapData map;
+	int		fd;
+	//char	**map;
+
+	if (ft_strnstr(map_file, ".ber", ft_strlen(map_file)))
+	{
+		fd = open(map_file, O_RDONLY);
+		map.content = (char **) malloc(sizeof(char *) * 5);
+		map.content = read_map(fd, map.content);
+		close(fd);
+		for (int i = 0; i < 5; i++)
+			printf("%s\n", map.content[i]);
+		if (is_rectangular(map.content))
+			printf("\nThe map is rectangular\n");
 		else
-			printf("\nThe map is NOT rectanguar!!!");
-		for (int x = 0; map[x]; x++)
-			free(map[x]);
-		free(map);
+			printf("\nThe map is NOT rectanguar!!!\n");
+		free_map(map.content);
 	}
 	else
 	{
