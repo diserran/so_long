@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/05 15:47:16 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/05 23:29:28 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@
 	return (1);
 } */
 
-static int	read_map(int fd, t_map *head)
+/* static int	read_map(int fd, t_map *head)
 {
 	int		i;
 	//size_t	line_len;
 	t_map	*new_line;
 	t_map	*current;
-	t_map	*tail = &head->next;
+	//t_map	*tail = &head->next;
 
 	i = 1;
 	//line_len = 0;
@@ -88,6 +88,52 @@ static int	read_map(int fd, t_map *head)
 		printf("Mapa %d siguiente %p\n", i, current->next);
 		printf("----------------------------------------------\n");
 	}
+	return (0);
+} */
+
+static int	read_map(int fd, t_map *head)
+{
+	int		i;
+	//size_t	line_len;
+	t_map	*temp;
+	t_map	**tail = &head;
+	//char	*aux;
+	
+	i = 1;
+	//line_len = 0;
+	printf("Mapa %d direccion %p\n", i, head);
+	printf("Mapa %d linea %s\n", i, head->line);
+	printf("Mapa %d siguiente %p\n", i, head->next);
+	printf("----------------------------------------------\n");
+	while (temp->line != NULL)
+	{
+		temp = (t_map *)malloc(sizeof(t_map));
+		temp->line = get_next_line(fd);
+		temp->next = NULL;
+		if (temp->line)
+		{
+			temp->line_len = ft_strlen(temp->line);
+			if (temp->line[temp->line_len - 1] == '\n')
+				temp->line_len--;
+			//temp->line = (char *) malloc(sizeof(char) * temp->line_len);
+			//temp->line = ft_memcpy(temp->line, temp->line, temp->line_len);
+		}
+		else
+			return (1);
+		*tail = temp;
+		tail = &(*tail)->next;
+		i++;
+		printf("Mapa %d direccion %p\n", i, tail);
+		printf("Mapa %d linea %s\n", i, temp->line);
+		printf("Mapa %d tamaño linea %d\n", i, temp->line_len);
+		printf("Mapa %d siguiente %p\n", i, temp->next);
+		printf("----------------------------------------------\n");
+	}
+	while (head != NULL)
+		{
+			printf("linea a enviar: %s", head->line);
+			head = head->next;
+		}
 	return (0);
 }
 
@@ -131,6 +177,12 @@ void	*map_checker(char *map_file)
 		read_map(fd, map);
 		close(fd);
 		//free_map(map.content);
+		/* while (map != NULL)
+		{
+			printf("linea a enviar: %s", map->line);
+			map = map->next;
+		} */
+		printf("list size: %d\n", ft_lstsize((void *)map));
 		return (map);
 	}
 	else
