@@ -6,26 +6,20 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/11/12 17:06:01 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:47:16 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-struct mapData {
-	char	**content;
-	int		**size;
-};
-
-static char	**read_map(int fd, char **map)
+/* static int	read_map(int fd, t_map *head)
 {
 	int		i;
 	size_t	line_len;
-	char	*line;
+	t_map	*last_line;
 
 	i = 0;
 	line_len = 0;
-	line = "";
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
@@ -34,16 +28,17 @@ static char	**read_map(int fd, char **map)
 			line_len = ft_strlen(line);
 			if (line[line_len - 1] == '\n')
 				line_len--;
+
 			map[i] = (char *) malloc(sizeof(char) * line_len);
 			map[i] = ft_memcpy(map[i], line, line_len);
 			free(line);
 		}
 		i++;
 	}
-	return (map);
-}
+	return (0);
+} */
 
-static int	is_rectangular(char **map)
+/* static int	is_rectangular(char **map)
 {
 	int		i;
 	size_t	initial_len;
@@ -57,9 +52,46 @@ static int	is_rectangular(char **map)
 		i++;
 	}
 	return (1);
+} */
+
+static int	read_map(int fd, t_map *head)
+{
+	int		i;
+	//size_t	line_len;
+	t_map	*new_line;
+	t_map	*current;
+	t_map	*tail = &head->next;
+
+	i = 1;
+	//line_len = 0;
+	current = head;
+	printf("Mapa %d direccion %p\n", i, current);
+	printf("Mapa %d linea %s\n", i, current->line);
+	printf("Mapa %d siguiente %p\n", i, current->next);
+	printf("----------------------------------------------\n");
+	while (current->line != NULL)
+	{
+		new_line = (t_map *)malloc(sizeof(t_map));
+		new_line->line = get_next_line(fd);
+		current = new_line;
+		if (new_line->line)
+		{
+			new_line->line_len = ft_strlen(new_line->line);
+			if (new_line->line[new_line->line_len - 1] == '\n')
+				new_line->line_len--;
+			new_line->line = (char *) malloc(sizeof(char) * new_line->line_len);
+			new_line->line = ft_memcpy(new_line->line, new_line->line, new_line->line_len);
+		}
+		i++;
+		printf("Mapa %d direccion %p\n", i, current);
+		printf("Mapa %d linea %s\n", i, current->line);
+		printf("Mapa %d siguiente %p\n", i, current->next);
+		printf("----------------------------------------------\n");
+	}
+	return (0);
 }
 
-int	get_dimensions(char *map_file, int	**size)
+/* int	get_dimensions(char *map_file, int	**size)
 {
 	int		fd;
 	int		x;
@@ -75,7 +107,7 @@ int	get_dimensions(char *map_file, int	**size)
 		y++;
 	}
 	close(fd);
-}
+} */
 
 void	free_map(char **map)
 {
@@ -84,30 +116,27 @@ void	free_map(char **map)
 	free(map);
 }
 
-void	map_checker(char *map_file)
+void	*map_checker(char *map_file)
 {
-	struct	mapData map;
+	t_map	*map;
 	int		fd;
 	//char	**map;
 
 	if (ft_strnstr(map_file, ".ber", ft_strlen(map_file)))
 	{
 		fd = open(map_file, O_RDONLY);
-		map.content = (char **) malloc(sizeof(char *) * 5);
-		map.content = read_map(fd, map.content);
+		map = (t_map *)malloc(sizeof(t_map));
+		map->line = get_next_line(fd);
+		map->next = NULL;
+		read_map(fd, map);
 		close(fd);
-		for (int i = 0; i < 5; i++)
-			printf("%s\n", map.content[i]);
-		if (is_rectangular(map.content))
-			printf("\nThe map is rectangular\n");
-		else
-			printf("\nThe map is NOT rectanguar!!!\n");
-		free_map(map.content);
+		//free_map(map.content);
+		return (map);
 	}
 	else
 	{
-		write(2, "Error\n", 7);
-		write(2, "Map file extension is not .ber\n", 32);
+		ft_putstr_fd("Error\nMap file extension is not .ber\n", STDERR_FILENO);
 		exit(1);
 	}
+	return (NULL);
 }

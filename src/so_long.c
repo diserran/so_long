@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2022/11/07 12:19:08 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:24:16 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	if (argc == 2)
 	{
-		map_checker(argv[1]);
+		printf("puntero listas %p", map_checker(argv[1]));
 	}
 	else
 		write(2, "Not enough arguments!\n", 23);
