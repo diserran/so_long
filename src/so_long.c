@@ -47,8 +47,8 @@ int	main(int argc, char **argv)
 		//	curr = curr->next;
 		//}
 		mlx = mlx_init();
-		mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
-		img.img = mlx_new_image(mlx, 1920, 1080);
+		mlx_win = mlx_new_window(mlx, 800, 450, "Hello World!");
+		img.img = mlx_new_image(mlx, 800, 450);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 		for (size_t i = 0; i < 200; i++)
 		{

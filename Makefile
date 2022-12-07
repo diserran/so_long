@@ -72,11 +72,11 @@ endif
 ifeq ($(UNAME), Linux)
 $(NAME): ${OBJS}
 			@echo "$(GREEN)Linux compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-#			@chmod 777 mlx_linux/configure
-#			@ $(MAKE) -C mlx_linux all
-#			$(CC) $(CFLAGS) -g3 -o $(NAME) $(OBJS) -Imlx_linux -Lmlx_linux -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm
+			@chmod 777 mlx_linux/configure
+			@ $(MAKE) -C mlx_linux all
 			@ $(MAKE) -C $(LIBFT) bonus
-			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) $(OBJS) $(LIBFT)libft.a
+			$(CC) $(CFLAGS) -g3 -o $(NAME) $(OBJS) -Imlx_linux -Lmlx_linux -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm $(LIBFT)libft.a
+#			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) $(OBJS) $(LIBFT)libft.a
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 			@echo "$$SOLONG"
 endif
@@ -103,7 +103,7 @@ endif
 ifeq ($(UNAME), Linux)
 fclean:		clean
 			@ ${RM} ${NAME}
-#			@ $(MAKE) -C mlx_linux clean
+			@ $(MAKE) -C mlx_linux clean
 			@ $(MAKE) -C $(LIBFT) fclean
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 endif
