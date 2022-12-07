@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/05 23:29:28 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:40:26 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,17 @@
 	return (0);
 } */
 
-static int	read_map(int fd, t_map *head)
+/* static t_map	*read_map(int fd)
 {
 	int		i;
 	//size_t	line_len;
 	t_map	*temp;
-	t_map	**tail = &head;
+	t_map	**tail;
 	//char	*aux;
-	
+
 	i = 1;
 	//line_len = 0;
-	printf("Mapa %d direccion %p\n", i, head);
-	printf("Mapa %d linea %s\n", i, head->line);
-	printf("Mapa %d siguiente %p\n", i, head->next);
-	printf("----------------------------------------------\n");
+	temp = (t_map*)malloc(sizeof(t_map));
 	while (temp->line != NULL)
 	{
 		temp = (t_map *)malloc(sizeof(t_map));
@@ -119,7 +116,7 @@ static int	read_map(int fd, t_map *head)
 			//temp->line = ft_memcpy(temp->line, temp->line, temp->line_len);
 		}
 		else
-			return (1);
+			return (temp);
 		*tail = temp;
 		tail = &(*tail)->next;
 		i++;
@@ -129,13 +126,8 @@ static int	read_map(int fd, t_map *head)
 		printf("Mapa %d siguiente %p\n", i, temp->next);
 		printf("----------------------------------------------\n");
 	}
-	while (head != NULL)
-		{
-			printf("linea a enviar: %s", head->line);
-			head = head->next;
-		}
 	return (0);
-}
+} */
 
 /* int	get_dimensions(char *map_file, int	**size)
 {
@@ -162,7 +154,7 @@ void	free_map(char **map)
 	free(map);
 }
 
-void	*map_checker(char *map_file)
+/* void	*map_checker(char *map_file)
 {
 	t_map	*map;
 	int		fd;
@@ -171,17 +163,17 @@ void	*map_checker(char *map_file)
 	if (ft_strnstr(map_file, ".ber", ft_strlen(map_file)))
 	{
 		fd = open(map_file, O_RDONLY);
-		map = (t_map *)malloc(sizeof(t_map));
-		map->line = get_next_line(fd);
-		map->next = NULL;
-		read_map(fd, map);
+		//map = (t_map *)malloc(sizeof(t_map));
+		//map->line = get_next_line(fd);
+		//map->next = NULL;
+		map = read_map(fd);
 		close(fd);
 		//free_map(map.content);
-		/* while (map != NULL)
+		while (map != NULL)
 		{
 			printf("linea a enviar: %s", map->line);
 			map = map->next;
-		} */
+		}
 		printf("list size: %d\n", ft_lstsize((void *)map));
 		return (map);
 	}
@@ -191,4 +183,4 @@ void	*map_checker(char *map_file)
 		exit(1);
 	}
 	return (NULL);
-}
+} */
