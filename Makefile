@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2022/12/07 11:38:43 by diserran         ###   ########.fr        #
+#    Updated: 2022/12/08 12:37:48 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,8 +62,8 @@ $(NAME): ${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
 			@ $(MAKE) -C mlx all >/dev/null 2>&1
 			@ cp ./mlx/libmlx.a .
-			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit $(LIBFT)libft.a
 			@ $(MAKE) -C $(LIBFT) bonus
+			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit $(LIBFT)libft.a
 #			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) $(OBJS) $(LIBFT)libft.a
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 			@echo "$$SOLONG"
