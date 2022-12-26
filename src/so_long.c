@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/21 11:34:16 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/26 10:48:24 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_vars {
 	int		movs;
 }				t_vars;
 
-static void	ft_mlx_pixel_put(t_data *data, int x, int y, int color)
+/* static void	ft_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -54,18 +54,18 @@ static int	close_program(t_vars *vars)
 	free(vars->mlx);
 	exit(0);
 	return (0);
-}
+} */
 
 int	main(int argc, char **argv)
 {
 	//t_map	*map;
-	t_data	img;
-	t_vars	vars;
+	//t_data	img;
+	//t_vars	vars;
 
 	if (argc == 2)
 	{
-		(void)argv;
-		vars.mlx = mlx_init();
+		map_checker(argv[1]);
+		/* vars.mlx = mlx_init();
 		if (!vars.mlx)
 			return (1);
 		vars.win = mlx_new_window(vars.mlx, 800, 450, "Hello World!");
@@ -87,7 +87,7 @@ int	main(int argc, char **argv)
 		//mlx_key_hook(vars.win, key_handler, &vars);
 		mlx_hook(vars.win, 2, 0, key_handler, &vars);
 		mlx_hook(vars.win, 17, 0, close_program, &vars);
-		mlx_loop(vars.mlx);
+		mlx_loop(vars.mlx); */
 	}
 	else
 		write(2, "Not enough arguments!\n", 23);

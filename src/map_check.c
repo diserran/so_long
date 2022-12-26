@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/07 11:40:26 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/26 13:04:38 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,43 +91,62 @@
 	return (0);
 } */
 
-/* static t_map	*read_map(int fd)
+static void	save_map(t_map **head, char *line)
 {
-	int		i;
-	//size_t	line_len;
-	t_map	*temp;
-	t_map	**tail;
-	//char	*aux;
+	t_map	*new_node;
+	t_map	*last;
 
-	i = 1;
-	//line_len = 0;
-	temp = (t_map*)malloc(sizeof(t_map));
-	while (temp->line != NULL)
+	if (!line)
+		return ;
+	new_node = (t_map *)malloc(sizeof(t_map));
+	last = *head;
+	new_node->line = ft_strtrim(line, "\n");
+	new_node->line_len = ft_strlen(new_node->line);
+	new_node->next = NULL;
+	if (*head == NULL)
 	{
-		temp = (t_map *)malloc(sizeof(t_map));
-		temp->line = get_next_line(fd);
-		temp->next = NULL;
-		if (temp->line)
-		{
-			temp->line_len = ft_strlen(temp->line);
-			if (temp->line[temp->line_len - 1] == '\n')
-				temp->line_len--;
-			//temp->line = (char *) malloc(sizeof(char) * temp->line_len);
-			//temp->line = ft_memcpy(temp->line, temp->line, temp->line_len);
-		}
-		else
-			return (temp);
-		*tail = temp;
-		tail = &(*tail)->next;
-		i++;
-		printf("Mapa %d direccion %p\n", i, tail);
-		printf("Mapa %d linea %s\n", i, temp->line);
-		printf("Mapa %d tamaño linea %d\n", i, temp->line_len);
-		printf("Mapa %d siguiente %p\n", i, temp->next);
-		printf("----------------------------------------------\n");
+		*head = new_node;
+		return ;
 	}
-	return (0);
-} */
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new_node;
+	return ;
+}
+
+static void	check_requirements(t_map **head)
+{
+	t_map	*current;
+	int		i;
+	char	*chars;
+	int		j;
+
+	current = *head;
+	i = 0;
+	chars = "01CEP";
+	while (current != NULL)
+	{
+		while (current->line[i])
+		{
+			j = 0;
+			/* while (chars[j])
+			{
+				printf("line: %c\n", current->line[i]);
+				printf("char: %c\n", chars[j]);
+				if (current->line[i] != '0' || current->line[i] != '1' || current->line[i] != 'C' || current->line[i] != 'E' current->line[i] != 'P' )
+					return (ft_putstr_fd("Error\nInvalid characters in map!\n", STDERR_FILENO));
+				j++;
+			} */
+			if (current->line[i] != '0' && current->line[i] != '1' && current->line[i] != 'C' && current->line[i] != 'E' && current->line[i] != 'P' )
+			{
+				printf("error char %c\n", current->line[i]);
+				return (ft_putstr_fd("Error\nInvalid characters in map!\n", STDERR_FILENO));
+			}
+			i++;
+		}
+		current = current->next;
+	}
+}
 
 /* int	get_dimensions(char *map_file, int	**size)
 {
@@ -154,27 +173,31 @@ void	free_map(char **map)
 	free(map);
 }
 
-/* void	*map_checker(char *map_file)
+void	*map_checker(char *map_file)
 {
 	t_map	*map;
+	char	*temp;
 	int		fd;
 	//char	**map;
 
 	if (ft_strnstr(map_file, ".ber", ft_strlen(map_file)))
 	{
 		fd = open(map_file, O_RDONLY);
-		//map = (t_map *)malloc(sizeof(t_map));
-		//map->line = get_next_line(fd);
-		//map->next = NULL;
-		map = read_map(fd);
+		temp = ft_calloc(1,1);
+		while (temp != NULL)
+		{
+			temp = get_next_line(fd);
+			save_map(&map, temp);
+		}
+		free(temp);
 		close(fd);
+		check_requirements(&map);
 		//free_map(map.content);
 		while (map != NULL)
 		{
-			printf("linea a enviar: %s", map->line);
+			printf("linea a enviar: %s\t len: %d\n", map->line, map->line_len);
 			map = map->next;
 		}
-		printf("list size: %d\n", ft_lstsize((void *)map));
 		return (map);
 	}
 	else
@@ -183,4 +206,4 @@ void	free_map(char **map)
 		exit(1);
 	}
 	return (NULL);
-} */
+}
