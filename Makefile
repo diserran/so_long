@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2022/12/08 12:37:48 by diserran         ###   ########.fr        #
+#    Updated: 2022/12/28 12:59:05 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 NAME        := so_long
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror
+FLAGS    := -Wall -Wextra -Werror -g3
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -26,6 +26,7 @@ GNL := src/get_next_line/
 
 SRCS        :=      $(GNL)get_next_line.c \
 					src/so_long.c \
+					src/so_long_utils.c \
 					src/map_check.c \
 
 OBJS        := $(SRCS:.c=.o)

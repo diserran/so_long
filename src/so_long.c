@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/26 10:48:24 by diserran         ###   ########.fr       */
+/*   Updated: 2022/12/28 14:27:57 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,16 @@ static int	close_program(t_vars *vars)
 
 int	main(int argc, char **argv)
 {
-	//t_map	*map;
+	t_map	*map;
+	t_line	*line;
 	//t_data	img;
 	//t_vars	vars;
 
 	if (argc == 2)
 	{
-		map_checker(argv[1]);
+		map = map_checker(argv[1]);
+		if (!map)
+			error_exit("map error!\n");
 		/* vars.mlx = mlx_init();
 		if (!vars.mlx)
 			return (1);
@@ -88,8 +91,16 @@ int	main(int argc, char **argv)
 		mlx_hook(vars.win, 2, 0, key_handler, &vars);
 		mlx_hook(vars.win, 17, 0, close_program, &vars);
 		mlx_loop(vars.mlx); */
+		printf("height: %d\n", map->y);
+		line = map->lines;
+		while (line != NULL)
+		{
+			printf("%s\n", line->line);
+			line = line->next;
+		}
+
 	}
 	else
-		write(2, "Not enough arguments!\n", 23);
+		error_exit("Not enough arguments!\n");
 	return (0);
 }
