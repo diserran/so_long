@@ -29,7 +29,6 @@ typedef struct line
 
 typedef struct map
 {
-	int		start;
 	int		collects;
 	int		exit;
 	int		player;
@@ -37,7 +36,7 @@ typedef struct map
 	t_line	*lines;
 }	t_map;
 
-t_map	*map_checker(char *map);
+t_map	*map_read(char *map);
 void	error_exit(char *msg);
 
 #endif

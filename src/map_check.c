@@ -35,63 +35,94 @@ static void	save_map(t_line **head, char *line)
 	return ;
 }
 
-static t_map	*check_requirements(t_line **head)
+/* El interior de esta función iba inicialmente en
+check_requirements, esta fuera para ahorrar lineas */
+static t_map	*map_init(t_line *head)
 {
-	t_line	*current;
 	t_map	*map;
-	int		i;
-	int		line_len;
 
-	current = *head;
-	line_len = current->line_len;
 	map = (t_map *)malloc(sizeof(t_map));
-	map->lines = current;
-	while (current != NULL)
-	{
-		if (map->y == 0 || current->next == NULL)
-		{
-			i = 0;
-			while (current->line[i] == '1')
-				i++;
-			if (i != line_len)
-				error_exit("Error\nMap is not surrounded by walls!!!\n");
-		}
-		if (current->line_len != line_len)
-			error_exit("Error\nMap is not rectangular!!!\n");
-		if (current->line[0] != '1' || current->line[line_len - 1] != '1')
-			error_exit("Error\nMap is not surrounded by walls!!!\n");
-		i = 0;
-		while (current->line[i] == '0' || current->line[i] == '1' || current->line[i] == 'C' || current->line[i] == 'E' || current->line[i] == 'P')
-			i++;
-		if (current->line_len != i)
-			error_exit("Error\nCharacters not allowed in the map!!!\n");
-		map->y++;
-		current = current->next;
-	}
+	map->lines = head;
+	map->y = 0; //Comprobar si en mac hace falta declarar el inicio a 0
+	map->exit = 0;
+	map->collects = 0;
+	map->player = 0;
 	return (map);
 }
 
-t_map	*map_checker(char *map_file)
+static void	map_conditions(t_map *map, t_line *current, int line_len)
 {
-	t_line	*lines;
-	char	*temp;
-	int		fd;
+	int	i;
 
-	if (ft_strnstr(map_file, ".ber", ft_strlen(map_file)))
+	i = 0;
+	if (map->y == 0 || current->next == NULL)
 	{
-		fd = open(map_file, O_RDONLY);
-		temp = ft_calloc(1,1);
-		lines = NULL;
-		while (temp != NULL)
-		{
-			temp = get_next_line(fd);
-			save_map(&lines, temp);
-		}
-		free(temp);
-		close(fd);
-		return (check_requirements(&lines));
+		i = 0;
+		while (current->line[i] == '1')
+			i++;
+		if (i != line_len)
+			error_exit("Error\nMap is not surrounded by walls!!!\n");
 	}
-	else
-		error_exit("Error\nMap file extension is not .ber\n");
-	return (NULL);
+	if (current->line_len != line_len)
+		error_exit("Error\nMap is not rectangular!!!\n");
+	if (current->line[0] != '1' || current->line[line_len - 1] != '1')
+		error_exit("Error\nMap is not surrounded by walls!!!\n");
+	i = 0;
+	while (current->line[i] == '0' || current->line[i] == '1'
+		|| current->line[i] == 'C' || current->line[i] == 'E'
+		|| current->line[i] == 'P')
+		i++;
+	if (current->line_len != i)
+		error_exit("Error\nCharacters not allowed in the map!!!\n");
+}
+
+static void	check_requirements(t_line *current, t_map *map)
+{
+	int		i;
+	int		line_len;
+
+	line_len = current->line_len;
+	while (current != NULL)
+	{
+		map_conditions(map, current, line_len);
+		i = 0;
+		while (current->line[i])
+		{
+			if (current->line[i] == 'C')
+				map->collects++;
+			if (current->line[i] == 'E')
+				map->exit++;
+			if (current->line[i] == 'P')
+				map->player++;
+			i++;
+		}
+		map->y++;
+		current = current->next;
+	}
+	if (map->player != 1 || map->exit != 1 || map->collects < 1)
+		error_exit("Error\nIncorrect characters amount!!!\n");
+}
+
+t_map	*map_read(char *map_file)
+{
+	int		fd;
+	char	*temp;
+	t_line	*lines;
+	t_map	*map;
+
+	fd = open(map_file, O_RDONLY);
+	temp = ft_calloc(1, 1);
+	lines = NULL;
+	while (temp != NULL)
+	{
+		temp = get_next_line(fd);
+		save_map(&lines, temp);
+	}
+	free(temp);
+	close(fd);
+	if (!lines)
+		error_exit("Error\nMap can't be empty!!!\n");
+	map = map_init(lines);
+	check_requirements(lines, map);
+	return (map);
 }

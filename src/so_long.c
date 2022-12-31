@@ -65,7 +65,10 @@ int	main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		map = map_checker(argv[1]);
+		if (ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))
+			map = map_read(argv[1]);
+		else
+			error_exit("Error\nMap file extension is not .ber\n");
 		if (!map)
 			error_exit("map error!\n");
 		/* vars.mlx = mlx_init();
@@ -92,6 +95,9 @@ int	main(int argc, char **argv)
 		mlx_hook(vars.win, 17, 0, close_program, &vars);
 		mlx_loop(vars.mlx); */
 		printf("height: %d\n", map->y);
+		printf("collects: %d\n", map->collects);
+		printf("exit: %d\n", map->exit);
+		printf("player: %d\n", map->player);
 		line = map->lines;
 		while (line != NULL)
 		{
