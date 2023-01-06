@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/28 14:44:07 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/06 19:55:30 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include "../src/libft/libft.h"
 # include "../src/get_next_line/get_next_line.h"
 # include "../mlx/mlx.h"
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
 
 typedef struct line
 {
@@ -33,10 +39,12 @@ typedef struct map
 	int		exit;
 	int		player;
 	int		y;
+	//t_point	*size;
 	t_line	*lines;
 }	t_map;
 
 t_map	*map_read(char *map);
 void	error_exit(char *msg);
+void	check_valid_path(t_map *map);
 
 #endif

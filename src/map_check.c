@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/28 15:06:26 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/06 19:55:21 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ t_map	*map_read(char *map_file)
 		error_exit("Error\nMap can't be empty!!!\n");
 	map = map_init(lines);
 	check_requirements(lines, map);
+	check_valid_path(map);
 	return (map);
 }

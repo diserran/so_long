@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2022/12/28 14:27:57 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:09:08 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	close_program(t_vars *vars)
 int	main(int argc, char **argv)
 {
 	t_map	*map;
-	t_line	*line;
+	//t_line	*line;
 	//t_data	img;
 	//t_vars	vars;
 
@@ -98,12 +98,12 @@ int	main(int argc, char **argv)
 		printf("collects: %d\n", map->collects);
 		printf("exit: %d\n", map->exit);
 		printf("player: %d\n", map->player);
-		line = map->lines;
+		/*line = map->lines;
 		while (line != NULL)
 		{
 			printf("%s\n", line->line);
 			line = line->next;
-		}
+		} */
 
 	}
 	else

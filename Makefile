@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2022/12/28 12:59:05 by diserran         ###   ########.fr        #
+#    Updated: 2023/01/06 19:48:09 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS        :=      $(GNL)get_next_line.c \
 					src/so_long.c \
 					src/so_long_utils.c \
 					src/map_check.c \
+					src/map_check_path.c
 
 OBJS        := $(SRCS:.c=.o)
 
