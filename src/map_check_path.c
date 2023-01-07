@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:34:07 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/06 21:27:03 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/07 10:10:24 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	**make_area(t_line *lines, t_point size)
 	i = 0;
 	while (i < size.y)
 	{
-		new[i] = malloc(sizeof(char) * (size.x + 1));
+		new[i] = malloc(sizeof(char) * (size.x));
 		new[i] = current->line;
 		current = current->next;
 		i++;
@@ -78,6 +78,8 @@ void    check_valid_path(t_map *map)
 	{
 		if (ft_strchr(area[i], 'C') || ft_strchr(area[i], 'E'))
 			error_exit("Error\nMap must contain a valid path!!!\n");
+		free(area[i]);
 		i++;
 	}
+	free(area);
 }

@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/06 19:55:30 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/07 09:22:59 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct map
 	int		exit;
 	int		player;
 	int		y;
-	//t_point	*size;
 	t_line	*lines;
 }	t_map;
 
