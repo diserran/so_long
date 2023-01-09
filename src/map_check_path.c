@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:34:07 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/07 10:10:24 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/09 11:43:23 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static char	**make_area(t_line *lines, t_point size)
 	int		i;
 
 	current = lines;
-	new = malloc(sizeof(char *) * size.y);
+	new = (char **)malloc(sizeof(char *) * (size.y));
 	i = 0;
 	while (i < size.y)
 	{
-		new[i] = malloc(sizeof(char) * (size.x));
-		new[i] = current->line;
+		new[i] = (char *)malloc(sizeof(char) * (size.x));
+		ft_memcpy(new[i], current->line, size.x);
 		current = current->next;
 		i++;
 	}
@@ -41,7 +41,7 @@ static	t_point	get_start_pos(char **map)
 	{
 		if (ft_strchr(map[start.y], 'P'))
 		{
-			while(map[start.y][start.x] != 'P')
+			while (map[start.y][start.x] != 'P')
 				start.x++;
 			return (start);
 		}
@@ -61,16 +61,16 @@ static void	flood_fill(char **map, t_point start)
 	flood_fill(map, (t_point){start.x, start.y + 1});
 }
 
-void    check_valid_path(t_map *map)
+void	check_valid_path(t_map *head)
 {
 	t_point	size;
 	t_point	start;
 	char	**area;
 	int		i;
 
-	size.y = map->y;
-	size.x = map->lines->line_len;
-	area = make_area(map->lines, size);
+	size.y = head->y;
+	size.x = head->lines->line_len;
+	area = make_area(head->lines, size);
 	start = get_start_pos(area);
 	flood_fill(area, start);
 	i = 0;

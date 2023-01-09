@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/07 09:22:59 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/09 11:24:07 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ typedef struct map
 
 t_map	*map_read(char *map);
 void	error_exit(char *msg);
-void	check_valid_path(t_map *map);
+void	check_valid_path(t_map *head);
 
 #endif

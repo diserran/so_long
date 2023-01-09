@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/07 09:57:48 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:03:19 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ t_map	*map_read(char *map_file)
 	t_map	*map;
 
 	fd = open(map_file, O_RDONLY);
-	temp = ft_calloc(1, 1);
+	temp = "";
 	lines = NULL;
 	while (temp != NULL)
 	{
 		temp = get_next_line(fd);
 		save_map(&lines, temp);
+		free(temp);
 	}
-	free(temp);
 	close(fd);
 	if (!lines)
 		error_exit("Error\nMap can't be empty!!!\n");

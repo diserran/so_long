@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/07 10:11:37 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:17:46 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_vars {
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
-}
+} */
 
 static int	key_handler(int keycode, t_vars *vars)
 {
@@ -49,74 +49,64 @@ static int	key_handler(int keycode, t_vars *vars)
 
 static int	close_program(t_vars *vars)
 {
-	printf("cerrando programa\n");
+	printf("Cerrando Programa\n");
 	mlx_destroy_window(vars->mlx, vars->win);
 	free(vars->mlx);
 	exit(0);
 	return (0);
-} */
+}
 
 int	main(int argc, char **argv)
 {
 	t_map	*map;
 	t_line	*line;
-	//t_data	img;
-	//t_vars	vars;
+	t_data	img;
+	t_vars	vars;
+
+	char	*grass_path = "sprites/grass_big.xpm";
+	int		img_size = 64;
 
 	if (argc == 2)
 	{
+		map = NULL;
 		if (ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))
 			map = map_read(argv[1]);
 		else
 			error_exit("Error\nMap file extension is not .ber\n");
-		if (!map)
-			error_exit("map error!\n");
-		/* vars.mlx = mlx_init();
+		vars.mlx = mlx_init();
 		if (!vars.mlx)
 			return (1);
-		vars.win = mlx_new_window(vars.mlx, 800, 450, "Hello World!");
+		vars.win = mlx_new_window(vars.mlx, (map->lines->line_len * 64), (map->y * 64), "./so_long");
 		if (!vars.win)
 		{
 			free(vars.win);
 			return (1);
 		}
-		img.img = mlx_new_image(vars.mlx, 800, 450);
+		//img.img = mlx_new_image(vars.mlx, 800, 450);
+		img.img = mlx_xpm_file_to_image(vars.mlx, grass_path, &img_size, &img_size);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		for (size_t i = 0; i < 200; i++)
+		/* for (size_t i = 0; i < 200; i++)
 		{
 			ft_mlx_pixel_put(&img, i, 50, 0x00FF0000);
 			ft_mlx_pixel_put(&img, i, 51, 0x00FF0000);
 			ft_mlx_pixel_put(&img, i, 52, 0x00FF0000);
 			ft_mlx_pixel_put(&img, i, 53, 0x00FF0000);
-		}
-		mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-		//mlx_key_hook(vars.win, key_handler, &vars);
+		} */
+		for (int k = 0; k < 13; k++)
+			mlx_put_image_to_window(vars.mlx, vars.win, img.img, (k * 64), 0);
+		/* mlx_put_image_to_window(vars.mlx, vars.win, img.img, 16, 0);
+		mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 16);
+		mlx_put_image_to_window(vars.mlx, vars.win, img.img, 16, 16); */
 		mlx_hook(vars.win, 2, 0, key_handler, &vars);
 		mlx_hook(vars.win, 17, 0, close_program, &vars);
-		mlx_loop(vars.mlx); */
-		printf("height: %d\n", map->y);
-		printf("collects: %d\n", map->collects);
-		printf("exit: %d\n", map->exit);
-		printf("player: %d\n", map->player);
+		mlx_loop(vars.mlx);
 		line = map->lines;
-		/* while (line != NULL)
-		{
-			printf("%s\n", line->line);
-			line = line->next;
-		} */
-		//Free struct
-		/* int		collects;
-		int		exit;
-		int		player;
-		int		y;
-		t_line	*lines; */
 		while (line != NULL)
 		{
 			free(line);
 			line = line->next;
 		}
 		free(map);
-
 	}
 	else
 		error_exit("Not enough arguments!\n");
