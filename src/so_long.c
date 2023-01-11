@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/09 13:17:46 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/11 13:46:53 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ typedef struct s_vars {
 	void	*win;
 	int		movs;
 }				t_vars;
-
-/* static void	ft_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-} */
 
 static int	key_handler(int keycode, t_vars *vars)
 {
@@ -61,9 +53,19 @@ int	main(int argc, char **argv)
 	t_map	*map;
 	t_line	*line;
 	t_data	img;
+	t_data	wall;
+	t_data	player;
+	t_data	collect;
+	t_data	exit;
 	t_vars	vars;
+	int		i;
+	int		k;
 
-	char	*grass_path = "sprites/grass_big.xpm";
+	char	*grass_path = "sprites/grass.xpm";
+	char	*wall_path = "sprites/rock.xpm";
+	char	*player_path = "sprites/player.xpm";
+	char	*collect_path = "sprites/collect.xpm";
+	char	*exit_path = "sprites/exit.xpm";
 	int		img_size = 64;
 
 	if (argc == 2)
@@ -82,21 +84,37 @@ int	main(int argc, char **argv)
 			free(vars.win);
 			return (1);
 		}
-		//img.img = mlx_new_image(vars.mlx, 800, 450);
 		img.img = mlx_xpm_file_to_image(vars.mlx, grass_path, &img_size, &img_size);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		/* for (size_t i = 0; i < 200; i++)
+		wall.img = mlx_xpm_file_to_image(vars.mlx, wall_path, &img_size, &img_size);
+		wall.addr = mlx_get_data_addr(wall.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+		player.img = mlx_xpm_file_to_image(vars.mlx, player_path, &img_size, &img_size);
+		player.addr = mlx_get_data_addr(player.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+		collect.img = mlx_xpm_file_to_image(vars.mlx, collect_path, &img_size, &img_size);
+		collect.addr = mlx_get_data_addr(collect.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+		exit.img = mlx_xpm_file_to_image(vars.mlx, exit_path, &img_size, &img_size);
+		exit.addr = mlx_get_data_addr(exit.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+		line = map->lines;
+		k = 0;
+		while (line != NULL)
 		{
-			ft_mlx_pixel_put(&img, i, 50, 0x00FF0000);
-			ft_mlx_pixel_put(&img, i, 51, 0x00FF0000);
-			ft_mlx_pixel_put(&img, i, 52, 0x00FF0000);
-			ft_mlx_pixel_put(&img, i, 53, 0x00FF0000);
-		} */
-		for (int k = 0; k < 13; k++)
-			mlx_put_image_to_window(vars.mlx, vars.win, img.img, (k * 64), 0);
-		/* mlx_put_image_to_window(vars.mlx, vars.win, img.img, 16, 0);
-		mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 16);
-		mlx_put_image_to_window(vars.mlx, vars.win, img.img, 16, 16); */
+			i = 0;
+			while (line->line[i])
+			{
+				mlx_put_image_to_window(vars.mlx, vars.win, img.img, (i * 64), (k * 64));
+				if (line->line[i] == '1')
+					mlx_put_image_to_window(vars.mlx, vars.win, wall.img, (i * 64), (k * 64));
+				if (line->line[i] == 'P')
+					mlx_put_image_to_window(vars.mlx, vars.win, player.img, (i * 64), (k * 64));
+				if (line->line[i] == 'E')
+					mlx_put_image_to_window(vars.mlx, vars.win, exit.img, (i * 64), (k * 64));
+				if (line->line[i] == 'C')
+					mlx_put_image_to_window(vars.mlx, vars.win, collect.img, (i * 64), (k * 64));
+				i++;
+			}
+			k++;
+			line = line->next;
+		}
 		mlx_hook(vars.win, 2, 0, key_handler, &vars);
 		mlx_hook(vars.win, 17, 0, close_program, &vars);
 		mlx_loop(vars.mlx);
