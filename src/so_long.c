@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/11 13:46:53 by diserran         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:48:21 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ typedef struct s_vars {
 
 static int	key_handler(int keycode, t_vars *vars)
 {
-	printf("movs %d\t", vars->movs++);
-	printf("Tecla pulsada: %d\n", keycode);
+	if (keycode == 13 || keycode == 0 || keycode == 1 || keycode == 2)
+	{
+		vars->movs++;
+		printf("You moved %d times\t", vars->movs);
+		printf("Tecla pulsada: %d\n", keycode);
+	}
 	if (keycode == 53)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
@@ -84,6 +88,7 @@ int	main(int argc, char **argv)
 			free(vars.win);
 			return (1);
 		}
+		vars.movs = 0;
 		img.img = mlx_xpm_file_to_image(vars.mlx, grass_path, &img_size, &img_size);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 		wall.img = mlx_xpm_file_to_image(vars.mlx, wall_path, &img_size, &img_size);
