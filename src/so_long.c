@@ -12,19 +12,19 @@
 
 #include "../include/so_long.h"
 
-typedef struct s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
 typedef struct s_vars {
 	void	*mlx;
 	void	*win;
 	int		movs;
 }				t_vars;
+
+typedef struct s_images {
+	void	*img_floor;
+	void	*img_wall;
+	void	*img_player;
+	void	*img_collect;
+	void	*img_exit;
+}				t_images;
 
 static int	key_handler(int keycode, t_vars *vars)
 {
@@ -52,25 +52,62 @@ static int	close_program(t_vars *vars)
 	return (0);
 }
 
+static t_images	*init_sprites(t_vars vars)
+{
+	t_images	*sprites;
+	int			img_size;
+	/* char		*floor_path = "sprites/grass.xpm";
+	char		*wall_path = "sprites/rock.xpm";
+	char		*player_path = "sprites/player.xpm";
+	char		*collect_path = "sprites/collect.xpm";
+	char		*exit_path = "sprites/exit.xpm"; */
+	
+	sprites = (t_images *)malloc(sizeof(t_images));
+	//sprites->img_floor = mlx_xpm_file_to_image(vars.mlx, floor_path, &img_size, &img_size);
+	sprites->img_floor = mlx_xpm_file_to_image(vars.mlx, "sprites/grass.xpm", &img_size, &img_size);
+	sprites->img_wall = mlx_xpm_file_to_image(vars.mlx, "sprites/rock.xpm", &img_size, &img_size);
+	sprites->img_player = mlx_xpm_file_to_image(vars.mlx,"sprites/player.xpm", &img_size, &img_size);
+	sprites->img_collect = mlx_xpm_file_to_image(vars.mlx,"sprites/collect.xpm", &img_size, &img_size);
+	sprites->img_exit = mlx_xpm_file_to_image(vars.mlx, "sprites/exit.xpm", &img_size, &img_size);
+	return (sprites);
+}
+
+static void	render_map(t_images *sprites, t_line	*line, t_vars vars)
+{
+
+	int		i;
+	int		k;
+	t_line	*temp;
+
+	temp = line;
+	k = 0;
+	while (temp != NULL)
+	{
+		i = 0;
+		while (temp->line[i])
+		{
+			mlx_put_image_to_window(vars.mlx, vars.win, sprites->img_floor, (i * 64), (k * 64));
+			if (temp->line[i] == '1')
+				mlx_put_image_to_window(vars.mlx, vars.win, sprites->img_wall, (i * 64), (k * 64));
+			if (temp->line[i] == 'P')
+				mlx_put_image_to_window(vars.mlx, vars.win, sprites->img_player, (i * 64), (k * 64));
+			if (temp->line[i] == 'E')
+				mlx_put_image_to_window(vars.mlx, vars.win, sprites->img_exit, (i * 64), (k * 64));
+			if (temp->line[i] == 'C')
+				mlx_put_image_to_window(vars.mlx, vars.win, sprites->img_collect, (i * 64), (k * 64));
+			i++;
+		}
+		k++;
+		temp = temp->next;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_map	*map;
 	t_line	*line;
-	t_data	img;
-	t_data	wall;
-	t_data	player;
-	t_data	collect;
-	t_data	exit;
 	t_vars	vars;
-	int		i;
-	int		k;
-
-	char	*grass_path = "sprites/grass.xpm";
-	char	*wall_path = "sprites/rock.xpm";
-	char	*player_path = "sprites/player.xpm";
-	char	*collect_path = "sprites/collect.xpm";
-	char	*exit_path = "sprites/exit.xpm";
-	int		img_size = 64;
+	t_images *sprites;
 
 	if (argc == 2)
 	{
@@ -89,37 +126,8 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		vars.movs = 0;
-		img.img = mlx_xpm_file_to_image(vars.mlx, grass_path, &img_size, &img_size);
-		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		wall.img = mlx_xpm_file_to_image(vars.mlx, wall_path, &img_size, &img_size);
-		wall.addr = mlx_get_data_addr(wall.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		player.img = mlx_xpm_file_to_image(vars.mlx, player_path, &img_size, &img_size);
-		player.addr = mlx_get_data_addr(player.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		collect.img = mlx_xpm_file_to_image(vars.mlx, collect_path, &img_size, &img_size);
-		collect.addr = mlx_get_data_addr(collect.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		exit.img = mlx_xpm_file_to_image(vars.mlx, exit_path, &img_size, &img_size);
-		exit.addr = mlx_get_data_addr(exit.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-		line = map->lines;
-		k = 0;
-		while (line != NULL)
-		{
-			i = 0;
-			while (line->line[i])
-			{
-				mlx_put_image_to_window(vars.mlx, vars.win, img.img, (i * 64), (k * 64));
-				if (line->line[i] == '1')
-					mlx_put_image_to_window(vars.mlx, vars.win, wall.img, (i * 64), (k * 64));
-				if (line->line[i] == 'P')
-					mlx_put_image_to_window(vars.mlx, vars.win, player.img, (i * 64), (k * 64));
-				if (line->line[i] == 'E')
-					mlx_put_image_to_window(vars.mlx, vars.win, exit.img, (i * 64), (k * 64));
-				if (line->line[i] == 'C')
-					mlx_put_image_to_window(vars.mlx, vars.win, collect.img, (i * 64), (k * 64));
-				i++;
-			}
-			k++;
-			line = line->next;
-		}
+		sprites = init_sprites(vars);
+		render_map(sprites, map->lines, vars);
 		mlx_hook(vars.win, 2, 0, key_handler, &vars);
 		mlx_hook(vars.win, 17, 0, close_program, &vars);
 		mlx_loop(vars.mlx);
