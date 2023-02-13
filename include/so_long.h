@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/09 11:24:07 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/13 12:48:52 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_point
 {
 	int	x;
 	int	y;
-}	t_point;
+}				t_point;
 
 typedef struct line
 {
@@ -31,7 +31,7 @@ typedef struct line
 	int			line_len;
 	int			y;
 	struct line	*next;
-}	t_line;
+}				t_line;
 
 typedef struct map
 {
@@ -40,7 +40,23 @@ typedef struct map
 	int		player;
 	int		y;
 	t_line	*lines;
-}	t_map;
+}				t_map;
+
+typedef struct s_images {
+	void	*img_floor;
+	void	*img_wall;
+	void	*img_player;
+	void	*img_collect;
+	void	*img_exit;
+}				t_images;
+
+typedef struct s_vars {
+	void		*mlx;
+	void		*win;
+	t_images	*sprites;
+	t_point		pos;
+	int			movs;
+}				t_vars;
 
 t_map	*map_read(char *map);
 void	error_exit(char *msg);

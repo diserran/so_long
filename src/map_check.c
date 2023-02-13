@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/11 11:26:25 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/13 12:19:26 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ static void	save_map(t_line **head, char *line)
 	return ;
 }
 
-/* El interior de esta función iba inicialmente en
-check_requirements, esta fuera para ahorrar lineas */
 static t_map	*map_init(t_line *head)
 {
 	t_map	*map;
 
 	map = (t_map *)malloc(sizeof(t_map));
 	map->lines = head;
-	map->y = 0; //Comprobar si en mac hace falta declarar el inicio a 0
+	map->y = 0;
 	map->exit = 0;
 	map->collects = 0;
 	map->player = 0;
