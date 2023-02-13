@@ -57,66 +57,28 @@ $(RED)|/__\|$(CYAN)/__\|$(YELLOW)/__\|$(GREEN)/__\|$(BLUE)/__\|$(RED)/__\|$(CYAN
 endef
 export SOLONG
 
-UNAME		:=	$(shell uname)
-
-ifeq ($(UNAME), Darwin)
 $(NAME): ${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
 			@ $(MAKE) -C mlx all >/dev/null 2>&1
 			@ cp ./mlx/libmlx.a .
 			@ $(MAKE) -C $(LIBFT) bonus
 			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit $(LIBFT)libft.a
-#			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) $(OBJS) $(LIBFT)libft.a
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 			@echo "$$SOLONG"
-endif
-
-ifeq ($(UNAME), Linux)
-$(NAME): ${OBJS}
-			@echo "$(GREEN)Linux compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			@chmod 777 mlx_linux/configure
-			@ $(MAKE) -C mlx_linux all
-			@ $(MAKE) -C $(LIBFT) bonus
-			$(CC) $(CFLAGS) -g3 -o $(NAME) $(OBJS) -Imlx_linux -Lmlx_linux -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm $(LIBFT)libft.a
-#			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) $(OBJS) $(LIBFT)libft.a
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
-			@echo "$$SOLONG"
-endif
 
 all:		${NAME}
 
-ifeq ($(UNAME), Darwin)
 clean:
 			@ ${RM} *.o */*.o */*/*.o
 			@ rm -rf $(NAME).dSYM >/dev/null 2>&1
 			@ $(MAKE) -C $(LIBFT) clean
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
-endif
 
-ifeq ($(UNAME), Linux)
-clean:
-			@ ${RM} *.o */*.o */*/*.o
-			@ rm -rf $(NAME).dSYM >/dev/null 2>&1
-			@ $(MAKE) -C $(LIBFT) clean
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
-endif
-
-
-ifeq ($(UNAME), Linux)
-fclean:		clean
-			@ ${RM} ${NAME}
-			@ $(MAKE) -C mlx_linux clean
-			@ $(MAKE) -C $(LIBFT) fclean
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
-endif
-
-ifeq ($(UNAME), Darwin)
 fclean:		clean
 			@ ${RM} ${NAME}
 			@ rm libmlx.a
 			@ $(MAKE) -C $(LIBFT) fclean
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
-endif
 
 re:			fclean all
 
