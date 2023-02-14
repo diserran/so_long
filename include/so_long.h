@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/13 12:48:52 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:51:49 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct line
 {
 	char		*line;
 	int			line_len;
-	int			y;
 	struct line	*next;
 }				t_line;
 
@@ -53,6 +52,7 @@ typedef struct s_images {
 typedef struct s_vars {
 	void		*mlx;
 	void		*win;
+	t_map		*map;
 	t_images	*sprites;
 	t_point		pos;
 	int			movs;
