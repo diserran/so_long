@@ -28,6 +28,8 @@ t_images	*init_sprites(t_vars *vars)
 	"sprites/collect.xpm", &img_size, &img_size);
 	sprites->img_exit = mlx_xpm_file_to_image(vars->mlx, \
 	"sprites/exit.xpm", &img_size, &img_size);
+	if (!sprites->img_floor || !sprites->img_wall || !sprites->img_player || !sprites->img_collect || sprites->img_exit)
+		error_exit("Error\nProblem loading the sprites!!!");
 	return (sprites);
 }
 
