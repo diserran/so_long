@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 16:26:16 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:41:47 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		vars = (t_vars *)malloc(sizeof(t_vars));
-		if (ft_strncmp(ft_strrchr(argv[1], '.'), ".ber", 4) == 0)
+		if (check_map_extension(argv[1]))
 		{
 			fd = open(argv[1], O_RDONLY);
 			if (fd == -1)

@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2023/02/15 16:29:17 by diserran         ###   ########.fr        #
+#    Updated: 2023/02/15 16:38:27 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS        :=      $(GNL)get_next_line.c \
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
-	${CC} ${FLAGS} -fsanitize=address -I $(LIBFT) -c $< -o ${<:.c=.o}
+	${CC} ${FLAGS} -I $(LIBFT) -c $< -o ${<:.c=.o}
 
 ################################################################################
 #                                  Makefile  objs                              #
