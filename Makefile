@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2023/01/09 10:07:31 by diserran         ###   ########.fr        #
+#    Updated: 2023/02/15 14:27:41 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS        :=      $(GNL)get_next_line.c \
 					src/so_long.c \
 					src/so_long_utils.c \
 					src/map_check.c \
-					src/map_check_path.c
+					src/map_check_path.c \
+					src/graphics_utils.c
 
 OBJS        := $(SRCS:.c=.o)
 
@@ -62,7 +63,7 @@ $(NAME): ${OBJS}
 			@ $(MAKE) -C mlx all >/dev/null 2>&1
 			@ cp ./mlx/libmlx.a .
 			@ $(MAKE) -C $(LIBFT) bonus
-			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit $(LIBFT)libft.a
+			$(CC) $(CFLAGS) -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit $(LIBFT)libft.a
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 			@echo "$$SOLONG"
 

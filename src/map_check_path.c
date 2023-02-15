@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 19:34:07 by diserran          #+#    #+#             */
-/*   Updated: 2023/01/09 11:43:23 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:46:44 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	check_valid_path(t_map *head)
 	size.x = head->lines->line_len;
 	area = make_area(head->lines, size);
 	start = get_start_pos(area);
+	head->initial_pos = start;
 	flood_fill(area, start);
 	i = 0;
 	while (i < size.y)

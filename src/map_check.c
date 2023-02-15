@@ -6,13 +6,13 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/14 11:51:45 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:44:48 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static void	save_map(t_line **head, char *line)
+static void	save_map(t_line **head, char *line, int index)
 {
 	t_line	*new_node;
 	t_line	*last;
@@ -21,6 +21,7 @@ static void	save_map(t_line **head, char *line)
 		return ;
 	new_node = (t_line *)malloc(sizeof(t_line));
 	last = *head;
+	new_node->y = index;
 	new_node->line = ft_strtrim(line, "\n");
 	new_node->line_len = ft_strlen(new_node->line);
 	new_node->next = NULL;
@@ -41,6 +42,8 @@ static t_map	*map_init(t_line *head)
 
 	map = (t_map *)malloc(sizeof(t_map));
 	map->lines = head;
+	map->initial_pos.x = 0;
+	map->initial_pos.y = 0;
 	map->y = 0;
 	map->exit = 0;
 	map->collects = 0;
@@ -104,17 +107,20 @@ static void	check_requirements(t_line *current, t_map *map)
 t_map	*map_read(char *map_file)
 {
 	int		fd;
+	int		index;
 	char	*temp;
 	t_line	*lines;
 	t_map	*map;
 
 	fd = open(map_file, O_RDONLY);
+	index = 0;
 	temp = "";
 	lines = NULL;
 	while (temp != NULL)
 	{
 		temp = get_next_line(fd);
-		save_map(&lines, temp);
+		save_map(&lines, temp, index);
+		index++;
 		free(temp);
 	}
 	close(fd);
