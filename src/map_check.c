@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 10:44:48 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:24:44 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,13 @@ static void	check_requirements(t_line *current, t_map *map)
 		error_exit("Error\nIncorrect characters amount!!!\n");
 }
 
-t_map	*map_read(char *map_file)
+t_map	*map_read(int fd)
 {
-	int		fd;
 	int		index;
 	char	*temp;
 	t_line	*lines;
 	t_map	*map;
 
-	fd = open(map_file, O_RDONLY);
 	index = 0;
 	temp = "";
 	lines = NULL;

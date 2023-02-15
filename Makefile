@@ -6,7 +6,7 @@
 #    By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/02 11:54:31 by diserran          #+#    #+#              #
-#    Updated: 2023/02/15 14:27:41 by diserran         ###   ########.fr        #
+#    Updated: 2023/02/15 16:29:17 by diserran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS        :=      $(GNL)get_next_line.c \
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
-	${CC} ${FLAGS} -I $(LIBFT) -c $< -o ${<:.c=.o}
+	${CC} ${FLAGS} -fsanitize=address -I $(LIBFT) -c $< -o ${<:.c=.o}
 
 ################################################################################
 #                                  Makefile  objs                              #
@@ -63,7 +63,7 @@ $(NAME): ${OBJS}
 			@ $(MAKE) -C mlx all >/dev/null 2>&1
 			@ cp ./mlx/libmlx.a .
 			@ $(MAKE) -C $(LIBFT) bonus
-			$(CC) $(CFLAGS) -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit $(LIBFT)libft.a
+			$(CC) $(CFLAGS) -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit -fsanitize=address $(LIBFT)libft.a
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 			@echo "$$SOLONG"
 
@@ -78,6 +78,7 @@ clean:
 fclean:		clean
 			@ ${RM} ${NAME}
 			@ rm libmlx.a
+			@ rm ./mlx/libmlx.a
 			@ $(MAKE) -C $(LIBFT) fclean
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 

@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 13:55:46 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:26:16 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_valid_move(t_vars *vars, int x, int y)
 		vars->collected_coins++;
 	if (line->line[x] == 'E')
 	{
-		if (vars->collected_coins != vars->map->collects)
+		if (vars->collected_coins < vars->map->collects)
 			return (0);
 		close_program(vars);
 	}
@@ -76,14 +76,11 @@ static int	key_handler(int keycode, t_vars *vars)
 	return (0);
 }
 
-static void	so_long(char **argv, t_vars *vars)
+static void	so_long(t_vars *vars, int fd)
 {
 	t_map	*map;
 
-	if (ft_strncmp(ft_strrchr(argv[1], '.'), ".ber", 4) == 0)
-		vars->map = map_read(argv[1]);
-	else
-		error_exit("Error\nMap file extension is not .ber\n");
+	vars->map = map_read(fd);
 	map = vars->map;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
@@ -102,11 +99,20 @@ static void	so_long(char **argv, t_vars *vars)
 int	main(int argc, char **argv)
 {
 	t_vars	*vars;
+	int		fd;
 
 	if (argc == 2)
 	{
 		vars = (t_vars *)malloc(sizeof(t_vars));
-		so_long(argv, vars);
+		if (ft_strncmp(ft_strrchr(argv[1], '.'), ".ber", 4) == 0)
+		{
+			fd = open(argv[1], O_RDONLY);
+			if (fd == -1)
+				error_exit("Error\nThe file doesn't exist!!!\n");
+			so_long(vars, fd);
+		}
+		else
+			error_exit("Error\nMap file extension is not .ber!!!\n");
 		mlx_hook(vars->win, 2, 0, key_handler, vars);
 		mlx_hook(vars->win, 17, 0, close_program, vars);
 		mlx_loop(vars->mlx);

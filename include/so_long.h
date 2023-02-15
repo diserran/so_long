@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 22:20:12 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 13:55:11 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:25:04 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int			close_program(t_vars *vars);
 void		print_movements(t_vars *vars);
 t_images	*init_sprites(t_vars *vars);
 void		render_map(t_vars *vars, t_line *line);
-t_map		*map_read(char *map);
+t_map		*map_read(int fd);
 void		check_valid_path(t_map *head);
 
 #endif
