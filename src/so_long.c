@@ -84,11 +84,11 @@ static void	so_long(t_vars *vars, int fd)
 	map = vars->map;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
-		error_exit("Error!\nProblem loading the minilibx");
+		error_exit("Error\nProblem loading the minilibx!!!");
 	vars->win = mlx_new_window(vars->mlx, \
 	(map->lines->line_len * 64), (map->y * 64), "./so_long");
 	if (!vars->win)
-		error_exit("Error!\nProblem loading the window");
+		error_exit("Error\nProblem loading the window!!!");
 	vars->movs = 0;
 	vars->pos = map->initial_pos;
 	vars->collected_coins = 0;
@@ -118,6 +118,6 @@ int	main(int argc, char **argv)
 		mlx_loop(vars->mlx);
 	}
 	else
-		error_exit("Not enough arguments!\n");
+		error_exit("Error\nIncorrect amount of arguments!!!\n");
 	return (0);
 }
