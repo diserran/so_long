@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:00:20 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 11:13:52 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:36:47 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ t_images	*init_sprites(t_vars *vars)
 	"sprites/collect.xpm", &img_size, &img_size);
 	sprites->img_exit = mlx_xpm_file_to_image(vars->mlx, \
 	"sprites/exit.xpm", &img_size, &img_size);
-	if (!sprites->img_floor || !sprites->img_wall || !sprites->img_player || !sprites->img_collect || sprites->img_exit)
-		error_exit("Error\nProblem loading the sprites!!!");
+	if (!sprites->img_floor || !sprites->img_wall || \
+	!sprites->img_player || !sprites->img_collect || !sprites->img_exit)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		error_exit("Error\nProblem loading the sprites!!!\n");
+	}
 	return (sprites);
 }
 

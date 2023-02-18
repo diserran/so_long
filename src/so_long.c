@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:57:16 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 16:41:47 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/18 13:09:55 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ static int	check_valid_move(t_vars *vars, int x, int y)
 	while (y != line->y)
 		line = line->next;
 	if (line->line[x] == 'C')
+	{
+		line->line[x] = '0';
 		vars->collected_coins++;
+	}
 	if (line->line[x] == 'E')
 	{
-		if (vars->collected_coins < vars->map->collects)
-			return (0);
-		close_program(vars);
+		if (vars->collected_coins == vars->map->collects)
+			close_program(vars);
 	}
 	if (line->line[x] == '1')
 		return (0);
@@ -38,6 +40,10 @@ static void	move_player(t_vars *vars, int keycode, int x, int y)
 {
 	mlx_put_image_to_window(vars->mlx, vars->win, \
 	vars->sprites->img_floor, (vars->pos.x * 64), (vars->pos.y * 64));
+	if ((vars->pos.x == vars->map->exit_pos.x) && \
+	(vars->pos.y == vars->map->exit_pos.y))
+		mlx_put_image_to_window(vars->mlx, vars->win, \
+		vars->sprites->img_exit, (vars->pos.x * 64), (vars->pos.y * 64));
 	if (keycode == 13)
 		vars->pos.y--;
 	if (keycode == 1)
@@ -90,6 +96,7 @@ static void	so_long(t_vars *vars, int fd)
 	if (!vars->win)
 		error_exit("Error\nProblem loading the window!!!");
 	vars->movs = 0;
+	vars->map->exit_pos = get_exit_pos(vars);
 	vars->pos = map->initial_pos;
 	vars->collected_coins = 0;
 	vars->sprites = init_sprites(vars);

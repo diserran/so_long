@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:38:14 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 16:42:16 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:57:59 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,31 @@ int	check_map_extension(char *filename)
 	if (extension && ft_strncmp(extension, ".ber", 4) == 0)
 		return (1);
 	return (0);
+}
+
+t_point	get_exit_pos(t_vars *vars)
+{
+	t_line	*lines;
+	t_point	exit;
+	int		i;
+
+	lines = vars->map->lines;
+	exit.x = 0;
+	exit.y = 0;
+	while (lines)
+	{
+		i = 0;
+		while (lines->line[i])
+		{
+			if (lines->line[i] == 'E')
+			{
+				exit.x = i;
+				exit.y = lines->y;
+				return (exit);
+			}
+			i++;
+		}
+		lines = lines->next;
+	}
+	return (exit);
 }

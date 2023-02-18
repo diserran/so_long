@@ -6,7 +6,7 @@
 /*   By: diserran <diserran@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:26:32 by diserran          #+#    #+#             */
-/*   Updated: 2023/02/15 16:24:44 by diserran         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:50:34 by diserran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static t_map	*map_init(t_line *head)
 	map->lines = head;
 	map->initial_pos.x = 0;
 	map->initial_pos.y = 0;
+	map->exit_pos.x = 0;
+	map->exit_pos.y = 0;
 	map->y = 0;
 	map->exit = 0;
 	map->collects = 0;
